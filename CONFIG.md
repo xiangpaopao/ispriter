@@ -137,6 +137,17 @@
              * @optional
              * @default false
              */
-            "compress": false
+            "compress": false,
+
+			/**
+             * 生成图的设备像素比，主要针对移动设备
+             *
+             * @optional 
+             * @default 0
+             * @example
+             * 如指定 "devicePixelRatio": 2, 就是适配了iPhon5级别的屏幕 
+             * 主流的值为 1、1.5、2、3
+             */
+            "devicePixelRatio": 1
         }
     }

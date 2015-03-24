@@ -149,6 +149,15 @@ var DEFAULT_CONFIG = {
         "format": "png",
 
         /**
+         * 输出css单位的设备像素比
+         * 主要针对移动设备 ，可能的值是 1、1.5、2、3....
+         *
+         * @optional
+         * @default "1"
+         */
+        "devicePixelRatio": 1,
+
+        /**
          * 配置是否要将所有精灵图合并成为一张, 当有很多 css 文件输入的时候可以使用.
          * 为 true 时将所有图片合并为一张, 同时所有 css 文件合并为一个文件.
          * 注意: 此时 maxSingleSize 仍然生效, 超过限制时也会进行图片拆分
@@ -1131,10 +1140,10 @@ function replaceAndPositionBackground(imageName, styleObj, combinedSelectors, fi
         }
 
         // set background-position-x
-        setPxValue(style, 'background-position-x', styleObj.fit.x);
+        setPxValue(style, 'background-position-x',  Math.round(styleObj.fit.x / spriteConfig.output.devicePixelRatio));
 
         // set background-position-y
-        setPxValue(style, 'background-position-y', styleObj.fit.y);
+        setPxValue(style, 'background-position-y', Math.round(styleObj.fit.y / spriteConfig.output.devicePixelRatio));
 
         // 没必要增加这个属性
         // style.setProperty('background-repeat', 'no-repeat', null);
@@ -1257,28 +1266,41 @@ function exportCssFile(spriteTask) {
     fileName = path.resolve(fileName);
 
     // 把合并了的样式统一在一起输出到文件的最后
+    // 设定background-size来处理移动设备
     if (spriteConfig.output.combineCSSRule) {
         combinedCssRules = spriteTask.combinedCssRules;
         for (imageName in combinedCssRules) {
             var versionImageName = imageName;
+
             if (fileversion) {
                 versionImageName += '?' + fileversion;
             }
-            cssContent += combinedCssRules[imageName].join(',') + '{' +
+            //TODO:fix 移动端
+            var imageAbsUrl = path.join(spriteConfig.output.cssDist, imageName);
+            readImageInfo(imageAbsUrl, function(imageInfo){
+                cssContent += combinedCssRules[imageName].join(',') + '{' +
                 'background-image: url(' + versionImageName + ');' +
+                'background-size: '+ Math.round(imageInfo.width / spriteConfig.output.devicePixelRatio) +'px;' +
                 '}\n';
+
+                cssContent = cssContentList.join('\n') + cssContent;
+                if (compressOptions) { // 压缩
+                    if (!us.isObject(compressOptions)) {
+                        compressOptions = null;
+                    }
+                    cssContent = new CleanCSS(compressOptions).minify(cssContent);
+                }
+                nf.writeFileSync(fileName, cssContent, true);
+                info('>>Output css:', fileName2);
+            });
+
+            //cssContent += combinedCssRules[imageName].join(',') + '{' +
+            //'background-image: url(' + versionImageName + ');' +
+            //'}\n';
         }
     }
 
-    cssContent = cssContentList.join('\n') + cssContent;
-    if (compressOptions) { // 压缩
-        if (!us.isObject(compressOptions)) {
-            compressOptions = null;
-        }
-        cssContent = new CleanCSS(compressOptions).minify(cssContent);
-    }
-    nf.writeFileSync(fileName, cssContent, true);
-    info('>>Output css:', fileName2);
+
 }
 
 /**
