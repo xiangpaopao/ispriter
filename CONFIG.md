@@ -139,15 +139,32 @@
              */
             "compress": false,
 
-			/**
-             * 生成图的设备像素比，主要针对移动设备
-             *
-             * @optional 
-             * @default 0
-             * @example
-             * 如指定 "devicePixelRatio": 2, 就是适配了iPhon5级别的屏幕 
-             * 主流的值为 1、1.5、2、3
-             */
-            "devicePixelRatio": 1
-        }
+	        /**
+	         * 输出css单位的设备像素比
+	         * 主要针对移动设备 ，可能的值是 1、1.5、2、3....
+	         * 启用rem后，该配置无效
+	         *
+	         * @optional
+	         * @default "1"
+	         */
+            "devicePixelRatio": 1,
+
+            /**
+	         * 是否启用rem作为单位
+	         * @default false
+	         */
+	        "rem": false,
+
+	        /**
+	         * 默认根目录字体大小，该单位为rem换算为px的比例，仅"rem": false时有效,
+	         * @default 20
+	         */
+	        "domRootValue": 20,
+
+	        /**
+	         * 对修改过的样式使用rem单位，仅"rem": false时有效,
+	         * @default 3
+	         */
+	        "remPrecision": 3
+	        }
     }

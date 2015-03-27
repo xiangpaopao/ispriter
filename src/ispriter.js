@@ -195,7 +195,25 @@ var DEFAULT_CONFIG = {
          * @optional
          * @default false
          */
-        "copyUnspriteImage": false
+        "copyUnspriteImage": false,
+
+        /**
+         * 是否启用rem作为单位
+         * @default false
+         */
+        "rem": false,
+
+        /**
+         * 默认根目录字体大小，该单位为rem换算为px的比例，仅"rem": false时有效,
+         * @default 20
+         */
+        "domRootValue": 20,
+
+        /**
+         * 对修改过的样式使用rem单位，仅"rem": false时有效,
+         * @default 3
+         */
+        "remPrecision": 3
     }
 };
 
@@ -853,8 +871,10 @@ function setImageWidthHeight(styleObj, imageInfo) {
      * 这里之所以用 w / h 来表示宽高, 而不是用 with / height
      * 是因为 packer 算法限定死了, 值读取传入元素的 w / h 值
      */
+
     styleObj.w = mw + spriteConfig.output.margin;
     styleObj.h = mh + spriteConfig.output.margin;
+
 }
 
 /**
@@ -865,6 +885,9 @@ function setImageWidthHeight(styleObj, imageInfo) {
 function getPxValue(cssValue) {
     if (cssValue && cssValue.indexOf('px') > -1) {
         return parseInt(cssValue);
+    }
+    if (cssValue && spriteConfig.output.rem && cssValue.indexOf('rem') > -1) {
+        return parseInt(cssValue) * spriteConfig.output.domRootValue;
     }
     return 0;
 }
@@ -1064,6 +1087,20 @@ function drawImageAndPositionBackground(spriteTask, callback) {
 }
 
 /**
+ * 转换为rem单位
+ */
+function toFixed(number, precision) {
+    var multiplier = Math.pow(10, precision + 1),
+        wholeNumber = Math.floor(number * multiplier);
+    return Math.round(wholeNumber / 10) * 10 / multiplier;
+}
+
+function px2rem(value){
+    return toFixed((value /spriteConfig.output.domRootValue), spriteConfig.output.remPrecision);
+}
+
+
+/**
  * 创建一个 png 图片
  * @param  {Number} width
  * @param  {Number} height
@@ -1139,11 +1176,21 @@ function replaceAndPositionBackground(imageName, styleObj, combinedSelectors, fi
             style['background-image'] = 'url(' + imageName + ')';
         }
 
+        //增加rem方案
+        var posX,posY;
+        if(spriteConfig.output.rem){
+            posX = px2rem(styleObj.fit.x);
+            posY = px2rem(styleObj.fit.y);
+        }else{
+            posX =  Math.round(styleObj.fit.x / spriteConfig.output.devicePixelRatio);
+            posY =  Math.round(styleObj.fit.y / spriteConfig.output.devicePixelRatio);
+        }
+
         // set background-position-x
-        setPxValue(style, 'background-position-x',  Math.round(styleObj.fit.x / spriteConfig.output.devicePixelRatio));
+        setStyleValue(style, 'background-position-x', posX ,spriteConfig.output.rem ? 'rem':'px');
 
         // set background-position-y
-        setPxValue(style, 'background-position-y', Math.round(styleObj.fit.y / spriteConfig.output.devicePixelRatio));
+        setStyleValue(style, 'background-position-y', posY ,spriteConfig.output.rem ? 'rem':'px');
 
         // 没必要增加这个属性
         // style.setProperty('background-repeat', 'no-repeat', null);
@@ -1157,7 +1204,7 @@ function replaceAndPositionBackground(imageName, styleObj, combinedSelectors, fi
 /**
  * 调整 样式规则的像素值, 如果原来就有值, 则在原来的基础上变更
  */
-function setPxValue(style, attr, newValue) {
+function setStyleValue(style, attr, newValue,unit) {
     var value;
     if (style[attr]) {
         value = parseInt(style[attr]);
@@ -1166,7 +1213,7 @@ function setPxValue(style, attr, newValue) {
         style[style.length++] = attr;
     }
     value = value - newValue;
-    value = value ? value + 'px' : '0';
+    value = value ? value + unit : '0';
     style[attr] = value;
 }
 
@@ -1278,10 +1325,18 @@ function exportCssFile(spriteTask) {
             //TODO:fix 移动端
             var imageAbsUrl = path.join(spriteConfig.output.cssDist, imageName);
             readImageInfo(imageAbsUrl, function(imageInfo){
+
+                //增加rem方案
+                var size;
+                if(spriteConfig.output.rem){
+                    size = px2rem(imageInfo.width) + 'rem';
+                }else{
+                    size =  Math.round(imageInfo.width / spriteConfig.output.devicePixelRatio) +'px;'
+                }
+
                 cssContent += combinedCssRules[imageName].join(',') + '{' +
                 'background-image: url(' + versionImageName + ');' +
-                'background-size: '+ Math.round(imageInfo.width / spriteConfig.output.devicePixelRatio) +'px;' +
-                '}\n';
+                'background-size: '+ size + '}\n';
 
                 cssContent = cssContentList.join('\n') + cssContent;
                 if (compressOptions) { // 压缩

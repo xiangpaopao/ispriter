@@ -69,7 +69,18 @@ config 的详细参数说明见[CONFIG](./CONFIG.md)
              */
             "maxSingleSize": 60,
             
-            "margin": 3
+            "margin": 3,
+
+            /**
+             * 输出css单位的设备像素比
+             */
+            "devicePixelRatio": 1,
+
+            /**
+             * 是否启用rem作为单位
+             */
+            "rem": false
+
         }
     }
 
