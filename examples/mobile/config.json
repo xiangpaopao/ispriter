@@ -9,11 +9,11 @@
 
             "imageDist": "images/",
 
-            "maxSingleSize": 60,
+            "maxSingleSize": 90,
 
             "margin": 3,
 
-            "devicePixelRatio": 2,
+            "devicePixelRatio": 2
 
         }
 }

@@ -1,0 +1,23 @@
+@charset"utf-8";
+body{ color: #707070;margin: 0; background:#fff9bf; }
+img{max-width: 100%;vertical-align: top;}
+p, div {-webkit-box-sizing: border-box;  }
+.wp{ width: 8rem; margin: 0 auto;}
+.xiu-nav{ width: 7.5rem; height: 0.8rem; background:url(../images/top_bar.png); background-size: 320px;padding:0.125rem 0.25rem;}
+.xiu-nav .face{ width: 0.8rem; height: 0.8rem; border-radius: 32px; overflow: hidden;}
+.pics-show{ background: url(../images/top_bg.png) bottom repeat-x; background-size: 41px; padding-bottom: 0.5rem;}
+.show-box{ width: 6.8rem; padding: 0.1rem; margin: 0.25rem auto;height: .75rem; background-color: #fff; border-radius: 2px; }
+.good-btn{ color: #ff5b98; background-size: 22px;margin-left: 0.15rem;display: inline-block }
+.good-btn .icon{ background: url(../images/zan_btn.png); background-size: 22px; width: 0.55rem; height: 0.55rem; vertical-align: top; display: inline-block; }
+.good-btn.disable .icon{ background-image: url(../images/zan_btn_dis.png);}
+.sline{ width: 7.675rem; height: 0.1rem; background-color: #c7af27; margin: -0.15rem auto 0 auto; }
+.ranking{ width: 7.5rem; margin: -0.05rem auto 0 auto; border-top: 4px solid #edebdd; padding: 0.3rem 0.35rem; background-color: #fffdf0; margin-bottom: 0.5rem; }
+.rank-list .item{ height: 1.3rem; line-height: 52px; border-bottom: 1px solid #dcdcdc; }
+.rank-list .item .index{ width: 0.575rem; height: 0.5rem; font-size: 12px; color: #fff; text-align: center; line-height: 22px; background-image: url(../images/index_bg.png) ; background-size: 23px; vertical-align: middle; display:inline-block; }
+.rank-list .item .face{ width: 0.75rem; height: 0.75rem; border-radius: 15px; overflow: hidden; vertical-align: middle; display:inline-block; margin: 0 0.15rem; }
+.rank-list .item .face>img{ vertical-align: top; }
+.rank-list .item .good{ font-size: 15px; color: #17b5ff;display: inline-block }
+.rank-list .item .icon{ background-image: url(../images/zan.png); width: 0.275rem; height: 0.275rem; background-size: 11px; display: inline-block; }
+.rank-list .item.disable .index{ background-image: url(../images/index_bg_dis.png);}
+.rank-list .item.disable .icon{ background-image: url(../images/zan_dis.png); }
+.rank-list .item.disable .good{ color: #707070; }

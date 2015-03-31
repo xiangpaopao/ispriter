@@ -459,6 +459,7 @@ var BaseCSSStyleDeclaration = {
 
     /**
      * 把 style 里面的 background 属性转换成简写形式, 用于减少代码
+     * background: [background-color] [background-image] [background-repeat] [background-attachment] [background-position] / [ background-size] [background-origin] [background-clip];
      */
     mergeBackgound: function() {
         var background = '',
@@ -466,6 +467,7 @@ var BaseCSSStyleDeclaration = {
 
         var positionText = this.removeProperty('background-position-x') + ' ' +
             this.removeProperty('background-position-y');
+
 
         style.setProperty('background-position', positionText.trim(), null);
 
@@ -480,6 +482,13 @@ var BaseCSSStyleDeclaration = {
             }
         }
         style.setProperty('background', background.trim(), null);
+
+        //上面的background赋值后会覆盖原background-size 暂时用这种方法把background-size设置到后面
+        if (style['background-size']) {
+            var bgSize = style['background-size'];
+            style.removeProperty('background-size');
+            style.setProperty('background-size',bgSize,null);
+        }
     },
 
     /**
@@ -598,16 +607,21 @@ function collectStyleRules(styleSheet, result, styleSheetUrl) {
          */
         var style = us.extend(rule.style, BaseCSSStyleDeclaration);
 
-        if (style['background-size']) {
 
-            /* 
+        if (style['background-size']=='cover'||style['background-size']=='contain') {
+
+            /*
              * 跳过有 background-size 的样式, 因为:
              * 1. background-size 不能简写在 background 里面, 而拆分 background 之后再组装,
              *    background 就变成在 background-size 后面了, 会导致 background-size 被 background 覆盖;
              * 2. 拥有 background-size 的背景图片一般都涉及到拉伸, 这类图片是不能合并的
+             *
+             * >> 考虑到移动端视频的问题，暂时改为contain 与 cover 时跳过
              */
             return;
         }
+
+        //FIXME:在有background-size属性的情况下background数据可能跑到后面，造成background-size失效
         if (style['background']) {
 
             // 有 background 属性的 style 就先把 background 简写拆分出来
@@ -642,6 +656,7 @@ function collectStyleRules(styleSheet, result, styleSheetUrl) {
             style.mergeBackgound();
             return;
         }
+
 
         var imageUrl = getImageUrl(style, styleSheetDir),
             imageAbsUrl,
@@ -897,7 +912,7 @@ function getPxValue(cssValue) {
         return parseInt(cssValue);
     }
     if (cssValue && spriteConfig.output.rem && cssValue.indexOf('rem') > -1) {
-        return parseInt(cssValue) * spriteConfig.output.domRootValue;
+        return parseInt(cssValue) * spriteConfig.output.domRootValue * 2;
     }
     return 0;
 }
@@ -1106,7 +1121,7 @@ function toFixed(number, precision) {
 }
 
 function px2rem(value){
-    return toFixed((value /spriteConfig.output.domRootValue), spriteConfig.output.remPrecision);
+    return toFixed((value /spriteConfig.output.domRootValue / 2), spriteConfig.output.remPrecision);
 }
 
 
@@ -1207,6 +1222,7 @@ function replaceAndPositionBackground(imageName, styleObj, combinedSelectors, fi
 
         // mergeBackgound, 合并 background 属性, 减少代码量
         style.mergeBackgound();
+        style.removeProperty['background-size'];
 
     });
 }

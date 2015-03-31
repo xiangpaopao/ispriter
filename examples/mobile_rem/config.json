@@ -1,0 +1,20 @@
+{
+    "input": {
+        "cssSource": ['style/main.css']
+    },
+    "output": {
+
+        "cssDist": 'merge',
+
+        "imageDist": "images/",
+
+        "maxSingleSize": 90,
+
+        "margin": 3,
+
+        "rem": true,
+
+        "domRootValue": 40
+
+    }
+}

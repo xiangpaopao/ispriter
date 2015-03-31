@@ -1,0 +1,8 @@
+{
+    "files": ["style/main.css"],
+    "root_value": 40,
+    "unit_precision": 3,
+    "prop_white_list": ["width", "height", "padding", "padding-top", "padding-right", "padding-bottom", "padding-left", "margin", "margin-top", "margin-right", "margin-bottom", "margin-left"],
+    "replace": true,
+    "media_query": false
+}

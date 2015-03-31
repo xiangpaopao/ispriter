@@ -1,23 +1,23 @@
 @charset"utf-8";
 body{ color: #707070;margin: 0; background:#fff9bf; }
-img{max-width: 100%}
+img{max-width: 100%;vertical-align: top;}
 p, div {-webkit-box-sizing: border-box;  }
 .wp{ width: 320px; margin: 0 auto;}
 .xiu-nav{ width: 300px; height: 32px; background:url(../images/top_bar.png); background-size: 320px;padding:5px 10px;}
 .xiu-nav .face{ width: 32px; height: 32px; border-radius: 32px; overflow: hidden;}
 .pics-show{ background: url(../images/top_bg.png) bottom repeat-x; background-size: 41px; padding-bottom: 20px;}
 .show-box{ width: 272px; padding: 4px; margin: 10px auto; background-color: #fff; border-radius: 2px; }
-.good-btn{ color: #ff5b98; background-size: cover; font-size: 15px; line-height: 22px; margin-left: 6px;display: inline-block }
-.good-btn .icon{ background: url(../images/zan_btn.png) no-repeat; background-size: cover; width: 22px; height: 22px; vertical-align: top; display: inline-block; }
+.good-btn{ color: #ff5b98; background-size: 22px; font-size: 15px; line-height: 22px; margin-left: 6px;display: inline-block }
+.good-btn .icon{ background: url(../images/zan_btn.png); background-size: 22px; width: 22px; height: 22px; vertical-align: top; display: inline-block; }
 .good-btn.disable .icon{ background-image: url(../images/zan_btn_dis.png);}
 .sline{ width: 307px; height: 4px; background-color: #c7af27; margin: -6px auto 0 auto; }
 .ranking{ width: 300px; margin: -2px auto 0 auto; border-top: 4px solid #edebdd; padding: 12px 14px; background-color: #fffdf0; margin-bottom: 20px; }
 .rank-list .item{ height: 52px; line-height: 52px; border-bottom: 1px solid #dcdcdc; }
-.rank-list .item .index{ width: 23px; height: 20px; font-size: 12px; color: #fff; text-align: center; line-height: 22px; background: url(../images/index_bg.png) center no-repeat; background-size: cover; vertical-align: middle; display:inline-block; }
+.rank-list .item .index{ width: 23px; height: 20px; font-size: 12px; color: #fff; text-align: center; line-height: 22px; background-image: url(../images/index_bg.png) ; background-size: 23px; vertical-align: middle; display:inline-block; }
 .rank-list .item .face{ width: 30px; height: 30px; border-radius: 15px; overflow: hidden; vertical-align: middle; display:inline-block; margin: 0 6px; }
 .rank-list .item .face>img{ vertical-align: top; }
-.rank-list .item .good{ font-size: 15px; color: #17b5ff; float: right; }
-.rank-list .item .icon{ background: url(../images/zan.png) center no-repeat; width: 11px; height: 11px; background-size: cover; display: inline-block; }
+.rank-list .item .good{ font-size: 15px; color: #17b5ff;display: inline-block }
+.rank-list .item .icon{ background-image: url(../images/zan.png); width: 11px; height: 11px; background-size: 11px; display: inline-block; }
 .rank-list .item.disable .index{ background-image: url(../images/index_bg_dis.png);}
 .rank-list .item.disable .icon{ background-image: url(../images/zan_dis.png); }
 .rank-list .item.disable .good{ color: #707070; }
