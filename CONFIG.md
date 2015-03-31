@@ -156,13 +156,13 @@
 	        "rem": false,
 
 	        /**
-	         * 默认根目录字体大小，该单位为rem换算为px的比例，仅"rem": false时有效,
+	         * 默认根目录字体大小，该单位为rem换算为px的比例，仅"rem": true时有效,
 	         * @default 20
 	         */
 	        "domRootValue": 20,
 
 	        /**
-	         * 对修改过的样式使用rem单位，仅"rem": false时有效,
+	         * rem单位保留小数位数，仅"rem": true时有效,
 	         * @default 3
 	         */
 	        "remPrecision": 3

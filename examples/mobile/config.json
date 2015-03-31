@@ -1,0 +1,19 @@
+{
+
+    "input": {
+            "cssSource": ['style/main.css']
+        },
+        "output": {
+
+            "cssDist": 'merge',
+
+            "imageDist": "images/",
+
+            "maxSingleSize": 60,
+
+            "margin": 3,
+
+            "devicePixelRatio": 2,
+
+        }
+}
